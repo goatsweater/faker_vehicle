@@ -59,6 +59,11 @@ class VehicleProvider(BaseProvider):
         veh['VIN'] = self._vin(veh)
         
         return veh
+    
+    def vehicle_vin(self):
+        """Returns a VIN."""
+        veh = self.vehicle_object()
+        return veh.get('VIN')
 
     def vehicle_year_make_model(self):
         """Returns Year Make Model example: 1997 Nissan 240SX"""
