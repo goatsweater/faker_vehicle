@@ -17,30 +17,32 @@ class VehicleProvider(BaseProvider):
     """
     
     def _vin(self, vehicle) -> str:
-        “””
+        """
         Return a VIN for the given vehicle.
         
-        VIN is a 17 character string encoding all kinds of information. The World Manufacturer Identifier (WMI) is [0:2], the Vehicle Descriptor Section (VDS) is [3:8], and the Vehicle Identifier Section (vis) is [9:16].
-        ”””
-        wmi = choice(vehicle_wmi[vehicle.get(‘Make’)])
+        VIN is a 17 character string encoding all kinds of information. The World 
+        Manufacturer Identifier (WMI) is [0:2], the Vehicle Descriptor Section (VDS) 
+        is [3:8], and the Vehicle Identifier Section (vis) is [9:16].
+        """
+        wmi = choice(vehicle_wmi[vehicle.get('Make')])
         
         # Position 9 is a check digit in North America and China, but not Europe.
-        vds = self.bothify(text=‘??####’)
+        vds = self.bothify(text='??####')
         
         # Position 9 is the year of manufacture as a single character value starting in 1980.
         letters = 'ABCDEFGHJKLMNPRSTVWXY123456789'
-        veh_year = 1979 - vehicle.get(‘Year’)
+        veh_year = 1979 - vehicle.get('Year')
         year = letters[veh_year]
         
         # In North America and China position 10 is the plant code.
-        plant = ‘A’
+        plant = 'A'
         
         # Remaining portion is the serial number
-        serial = self.numerify(text=‘######’)
+        serial = self.numerify(text='######')
         
-        vis = ‘’.join([year, plant, serial])
+        vis = ''.join([year, plant, serial])
         
-        return ’’.join([wmi, vds, vis])
+        return ''.join([wmi, vds, vis])
 
     def vehicle_object(self):
         """
@@ -49,7 +51,7 @@ class VehicleProvider(BaseProvider):
         """
         veh = choice(vehicles)
         
-        veh[“VIN”] = self._vin(veh)
+        veh['VIN'] = self._vin(veh)
         
         return veh
 
