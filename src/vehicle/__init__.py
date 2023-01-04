@@ -24,7 +24,12 @@ class VehicleProvider(BaseProvider):
         Manufacturer Identifier (WMI) is [0:2], the Vehicle Descriptor Section (VDS) 
         is [3:8], and the Vehicle Identifier Section (vis) is [9:16].
         """
-        wmi = choice(vehicle_wmi[vehicle.get('Make')])
+        # TODO: Implement robust WMI association
+        wmis = vehicle_wmi.get(vehicle.get('Make')) | vehicle_wmi.get(vehicle.get('Make').title()) | vehicle_wmi.get(vehicle.get('Make').upper())
+        if wmis:
+            wmi = choice(wmis)
+        else:
+            return ''
         
         # Position 9 is a check digit in North America and China, but not Europe.
         vds = self.bothify(text='??####')
