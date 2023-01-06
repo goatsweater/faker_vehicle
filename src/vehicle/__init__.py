@@ -36,8 +36,10 @@ class VehicleProvider(BaseProvider):
         
         # Position 9 is the year of manufacture as a single character value starting in 1980.
         letters = 'ABCDEFGHJKLMNPRSTVWXY123456789'
-        veh_year = 1979 - vehicle.get('Year')
-        year = letters[veh_year]
+        veh_year = vehicle.get('Year') - 1979
+        if veh_year > len(letters):
+            veh_year = veh_year - len(letters)
+        year = letters[veh_year-1]
         
         # In North America and China position 10 is the plant code.
         plant = 'A'
